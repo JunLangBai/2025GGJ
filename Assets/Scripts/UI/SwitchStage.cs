@@ -5,16 +5,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-public class StartGame : MonoBehaviour
+public class SwitchStage : MonoBehaviour
 {
-   
 
+    public string mapname;
     // ¿ªÊ¼ÓÎÏ·
-    public void startgame()
+    public void switchstage()
     {
-        SceneManager.LoadScene("MapChooseScene");
+        SceneManager.LoadScene(mapname);
     }
 
- 
+
 }
 
