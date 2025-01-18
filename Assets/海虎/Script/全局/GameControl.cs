@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameControl : MonoBehaviour
@@ -29,20 +30,38 @@ public class GameControl : MonoBehaviour
 
     //初始值
     public int nowBubble;
-    //当前吐出去的泡泡
-    public int bubblescount;
     //最大容量
-    public int limitation = 4;
+    public int limitation = 5;
+    
+    public LevelData levelData;
 
+    private void Start()
+    {
+        if (levelData != null)
+        {
+            if (levelData.初始泡泡 <= limitation)
+            {
+                nowBubble = levelData.初始泡泡;
+            }
+            else
+            {
+                nowBubble = limitation;
+            }
+        }
+        else
+        {
+            Debug.Log("没有配置关卡数据！");
+        }
+    }
 
     public void BubblesUp()
     {
-        bubblescount++;  
+        nowBubble--;
         
     }
 
     public void BubblesDown()
     {
-        bubblescount--;
+        nowBubble++;
     }
 }

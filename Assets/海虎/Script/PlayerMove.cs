@@ -69,19 +69,23 @@ public class PlayerMove : MonoBehaviour
             Jump(jumpForceOnBubble);
         }
 
-        if (Input.GetKeyDown(tocheBubbleKey) && GameControl.Instance.bubblescount < GameControl.Instance.limitation )
+        if (Input.GetKeyDown(tocheBubbleKey) && GameControl.Instance.nowBubble <= GameControl.Instance.limitation )
         {
             GameControl.Instance.BubblesUp();
             ShootBubble(movedir);
         }
-        else if (GameControl.Instance.bubblescount >= GameControl.Instance.limitation)
+        else if (GameControl.Instance.nowBubble <= 0)
         {
-            GameControl.Instance.bubblescount = GameControl.Instance.limitation;
+            GameControl.Instance.nowBubble = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (GameControl.Instance.nowBubble < GameControl.Instance.limitation)
         {
             DestroyRandomBubble();
+        }
+        else if (GameControl.Instance.nowBubble == GameControl.Instance.limitation)
+        {
+            
         }
     }
 
