@@ -72,16 +72,12 @@ public class PlayerMove : MonoBehaviour
     {
         GroundCheck();
         
-        if (Input.GetKeyDown(KeyCode.W) && grounded)
+        if (Input.GetKey(KeyCode.W) && grounded)
         {
             movedir = Vector2.up;
             Jump(jumpForce);
         }
-        else if (Input.GetKeyDown(KeyCode.W) && bubbleed)
-        {
-            movedir = Vector2.up;
-            Jump(jumpForceOnBubble);
-        }
+     
 
         if (GameControl.Instance.nowBubble >= GameControl.Instance.limitation)
         {

@@ -14,7 +14,7 @@ public class PressurePlateButton2D : MonoBehaviour
     public float moveSpeed = 2f;  // 移动速度，决定门的移动快慢
     
     private bool isPressed = false; // 用来判断按钮是否被踩压
-    private Vector3 doorOriginalPosition;
+    private Vector3 doorOriginalPosition;  // 保存门的初始位置
 
     private void Start()
     {
@@ -24,17 +24,24 @@ public class PressurePlateButton2D : MonoBehaviour
             buttonSpriteRenderer.sprite = normalSprite;
         }
         transform.localScale = normalScale;
+
+        // 获取门的初始位置
+        if (door != null)
+        {
+            doorOriginalPosition = door.transform.position;
+        }
     }
 
     // 当玩家进入按钮的触发区域时
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家进入按钮时触发
+        if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家或泡泡进入按钮时触发
         {
             if (!isPressed)
             {
                 isPressed = true;
                 ChangeButtonState(true); // 改变按钮状态（被压下）
+                OpenDoor(); // 打开门
             }
         }
     }
@@ -42,12 +49,13 @@ public class PressurePlateButton2D : MonoBehaviour
     // 当玩家离开按钮的触发区域时
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家离开按钮时触发
+        if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家或泡泡离开按钮时触发
         {
             if (isPressed)
             {
                 isPressed = false;
                 ChangeButtonState(false); // 恢复按钮状态（恢复原样）
+                CloseDoor(); // 关闭门
             }
         }
     }
@@ -64,6 +72,26 @@ public class PressurePlateButton2D : MonoBehaviour
         {
             buttonSpriteRenderer.sprite = normalSprite; // 恢复为正常状态的图片
             transform.localScale = normalScale; // 恢复原来的大小
+        }
+    }
+
+    // 打开门
+    private void OpenDoor()
+    {
+        if (door != null)
+        {
+            // 使用 Lerp 来平滑移动门
+            door.transform.position = Vector3.Lerp(door.transform.position, new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z), moveSpeed * Time.deltaTime);
+        }
+    }
+
+    // 关闭门
+    private void CloseDoor()
+    {
+        if (door != null)
+        {
+            // 使用 Lerp 来平滑移动门
+            door.transform.position = Vector3.Lerp(door.transform.position, new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorCloseHeight, doorOriginalPosition.z), moveSpeed * Time.deltaTime);
         }
     }
 }
