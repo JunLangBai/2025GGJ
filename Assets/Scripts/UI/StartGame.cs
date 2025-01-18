@@ -8,8 +8,6 @@ using UnityEngine.UI;
 public class StartGame : MonoBehaviour
 {
    
-
-    // ©╙й╪сно╥
     public void startgame()
     {
         SceneManager.LoadScene("MapChooseScene");
