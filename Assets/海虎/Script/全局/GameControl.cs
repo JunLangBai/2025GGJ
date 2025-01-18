@@ -27,13 +27,18 @@ public class GameControl : MonoBehaviour
         }
     }
 
+    //初始值
+    public int nowBubble;
+    //当前吐出去的泡泡
     public int bubblescount;
+    //最大容量
     public int limitation = 4;
 
 
     public void BubblesUp()
     {
-        bubblescount++;
+        bubblescount++;  
+        
     }
 
     public void BubblesDown()
