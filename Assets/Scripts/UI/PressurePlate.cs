@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PressurePlateButton2D : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class PressurePlateButton2D : MonoBehaviour
     }
 
     // 当玩家进入按钮的触发区域时
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerStay2D(Collider2D collider)
     {
         if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家或泡泡进入按钮时触发
         {
@@ -41,7 +42,7 @@ public class PressurePlateButton2D : MonoBehaviour
             {
                 isPressed = true;
                 ChangeButtonState(true); // 改变按钮状态（被压下）
-                OpenDoor(); // 打开门
+                StartCoroutine(MoveDoorUp()); // 打开门
             }
         }
     }
@@ -55,7 +56,7 @@ public class PressurePlateButton2D : MonoBehaviour
             {
                 isPressed = false;
                 ChangeButtonState(false); // 恢复按钮状态（恢复原样）
-                CloseDoor(); // 关闭门
+                StartCoroutine(MoveDoorDown()); // 关闭门
             }
         }
     }
@@ -75,23 +76,33 @@ public class PressurePlateButton2D : MonoBehaviour
         }
     }
 
-    // 打开门
-    private void OpenDoor()
+    // 使用协程打开门
+    private IEnumerator MoveDoorUp()
     {
         if (door != null)
         {
-            // 使用 Lerp 来平滑移动门
-            door.transform.position = Vector3.Lerp(door.transform.position, new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z), moveSpeed * Time.deltaTime);
+            Vector3 targetPosition = new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z);
+            while (door.transform.position.y < targetPosition.y)
+            {
+                door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y + moveSpeed * Time.deltaTime, door.transform.position.z);
+                yield return null;
+            }
+            door.transform.position = targetPosition; // 确保门停在目标位置
         }
     }
 
-    // 关闭门
-    private void CloseDoor()
+    // 使用协程关闭门
+    private IEnumerator MoveDoorDown()
     {
         if (door != null)
         {
-            // 使用 Lerp 来平滑移动门
-            door.transform.position = Vector3.Lerp(door.transform.position, new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorCloseHeight, doorOriginalPosition.z), moveSpeed * Time.deltaTime);
+            Vector3 targetPosition = doorOriginalPosition;  // 直接使用门的初始位置
+            while (door.transform.position.y > targetPosition.y)
+            {
+                door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y - moveSpeed * Time.deltaTime, door.transform.position.z);
+                yield return null;
+            }
+            door.transform.position = targetPosition; // 确保门停在初始位置
         }
     }
 }
