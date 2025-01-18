@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GamePause : MonoBehaviour
 {
@@ -54,8 +56,17 @@ public class GamePause : MonoBehaviour
 
     private void PauseGame()
     {
+       
         isPaused = true;
-        Time.timeScale = 0f;  // ”Œœ∑‘›Õ£
+        
+        if (SceneManager.GetActiveScene().name == "MapChooseScene")
+        {
+            Time.timeScale = 1f;
+        }
+        else 
+        { 
+            Time.timeScale = 0f;  // ”Œœ∑‘›Õ£
+        }
         ShowWindow();  // œ‘ æ¥∞ø⁄
     }
 
