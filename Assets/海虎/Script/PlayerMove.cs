@@ -27,6 +27,7 @@ public class PlayerMove : MonoBehaviour
     public Transform shootroot;
     public GameObject bubble;
     public float bubbleSpeed = 20f;
+    public float bubbleForce = 20f;
     
     [Header("Bubble Destruction")]
     public float detectionRadius = 2f;
@@ -56,13 +57,13 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         GroundCheck();
-
-        if (Input.GetKey(KeyCode.W) && grounded)
+        
+        if (Input.GetKeyDown(KeyCode.W) && grounded)
         {
             movedir = Vector2.up;
             Jump(jumpForce);
         }
-        else if (Input.GetKey(KeyCode.W) && bubbleed)
+        else if (Input.GetKeyDown(KeyCode.W) && bubbleed)
         {
             movedir = Vector2.up;
             Jump(jumpForceOnBubble);
@@ -108,6 +109,11 @@ public class PlayerMove : MonoBehaviour
             moveInput = 0f;
             movedir = Vector2.up;
         }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            moveInput = 0f;
+            movedir = Vector2.down;
+        }
 
         UpdateShootRootPosition();
 
@@ -148,10 +154,12 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+
     public void ShootBubble(Vector2 newDirection)
     {
         if (bubble != null)
         {
+            // 发射泡泡
             GameObject newBubble = Instantiate(bubble, shootroot.position, Quaternion.identity);
             Rigidbody2D bubbleRb = newBubble.GetComponent<Rigidbody2D>();
 
@@ -163,8 +171,13 @@ public class PlayerMove : MonoBehaviour
             // 缩小玩家体型
             currentScaleFactor = Mathf.Max(0.5f, currentScaleFactor - shrinkFactor);  // 不小于50%的缩放
             transform.localScale = originalScale * currentScaleFactor;
+
+            // 给玩家施加反向冲力
+            Vector2 oppositeDirection = -newDirection.normalized;  // 反向
+            rb.AddForce(oppositeDirection * bubbleSpeed * bubbleForce, ForceMode2D.Impulse);  // 施加一个反向冲力
         }
     }
+
 
     private void DestroyRandomBubble()
     {
@@ -186,4 +199,5 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("附近没有泡泡可以销毁");
         }
     }
+    
 }
