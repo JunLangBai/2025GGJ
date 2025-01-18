@@ -17,6 +17,9 @@ public class PressurePlateButton2D : MonoBehaviour
     private bool isPressed = false; // 用来判断按钮是否被踩压
     private Vector3 doorOriginalPosition;  // 保存门的初始位置
 
+    private bool isMoving = false;  // 用来标识门是否正在移动
+    private bool shouldClose = false; // 是否应该关闭门
+
     private void Start()
     {
         // 初始化按钮为正常状态
@@ -36,28 +39,26 @@ public class PressurePlateButton2D : MonoBehaviour
     // 当玩家进入按钮的触发区域时
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家或泡泡进入按钮时触发
+        if ((collider.CompareTag("Player") || collider.CompareTag("Bubble")) && !isPressed) // 仅当玩家或泡泡进入按钮时触发
         {
-            if (!isPressed)
-            {
-                isPressed = true;
-                ChangeButtonState(true); // 改变按钮状态（被压下）
-                StartCoroutine(MoveDoorUp()); // 打开门
-            }
+            isPressed = true;
+            ChangeButtonState(true); // 改变按钮状态（被压下）
+            StartCoroutine(MoveDoorUp()); // 打开门
         }
     }
 
     // 当玩家离开按钮的触发区域时
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家或泡泡离开按钮时触发
+        if ((collider.CompareTag("Player") || collider.CompareTag("Bubble")) && isPressed) // 仅当玩家或泡泡离开按钮时触发
         {
-            if (isPressed)
-            {
-                isPressed = false;
-                ChangeButtonState(false); // 恢复按钮状态（恢复原样）
-                StartCoroutine(MoveDoorDown()); // 关闭门
-            }
+            isPressed = false;
+            ChangeButtonState(false); // 恢复按钮状态（恢复原样）
+
+            // 立即停止开门，开始关门
+            shouldClose = true;
+            if (isMoving) StopCoroutine("MoveDoorUp");
+            StartCoroutine(MoveDoorDown()); // 关闭门
         }
     }
 
@@ -79,30 +80,33 @@ public class PressurePlateButton2D : MonoBehaviour
     // 使用协程打开门
     private IEnumerator MoveDoorUp()
     {
-        if (door != null)
+        isMoving = true;
+        Vector3 targetPosition = new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z);
+
+        while (door.transform.position.y < targetPosition.y)
         {
-            Vector3 targetPosition = new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z);
-            while (door.transform.position.y < targetPosition.y)
-            {
-                door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y + moveSpeed * Time.deltaTime, door.transform.position.z);
-                yield return null;
-            }
-            door.transform.position = targetPosition; // 确保门停在目标位置
+            if (shouldClose) yield break;  // 如果应当关门，立即停止开门
+
+            door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y + moveSpeed * Time.deltaTime, door.transform.position.z);
+            yield return null;
         }
+        door.transform.position = targetPosition; // 确保门停在目标位置
+        isMoving = false;
     }
 
     // 使用协程关闭门
     private IEnumerator MoveDoorDown()
     {
-        if (door != null)
+        isMoving = true;
+        Vector3 targetPosition = doorOriginalPosition;  // 直接使用门的初始位置
+
+        while (door.transform.position.y > targetPosition.y)
         {
-            Vector3 targetPosition = doorOriginalPosition;  // 直接使用门的初始位置
-            while (door.transform.position.y > targetPosition.y)
-            {
-                door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y - moveSpeed * Time.deltaTime, door.transform.position.z);
-                yield return null;
-            }
-            door.transform.position = targetPosition; // 确保门停在初始位置
+            door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y - moveSpeed * Time.deltaTime, door.transform.position.z);
+            yield return null;
         }
+        door.transform.position = targetPosition; // 确保门停在初始位置
+        isMoving = false;
+        shouldClose = false; // 关门完成后重置关闭标志
     }
 }
