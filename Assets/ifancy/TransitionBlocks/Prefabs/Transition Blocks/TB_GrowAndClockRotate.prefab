@@ -186,7 +186,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   _yScaleOverTime:
     serializedVersion: 2
     m_Curve:
@@ -273,7 +273,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   _xPositionOverTime:
     serializedVersion: 2
     m_Curve:
@@ -297,7 +297,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   _yPositionOverTime:
     serializedVersion: 2
     m_Curve:
@@ -321,7 +321,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   _rotationOverTime:
     serializedVersion: 2
     m_Curve:
@@ -408,7 +408,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   _alphaOverTime:
     serializedVersion: 2
     m_Curve:
@@ -432,7 +432,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   _animationTime: 1
   _transitionType: 0
   _skipEveryXBlockUpdates: 0
