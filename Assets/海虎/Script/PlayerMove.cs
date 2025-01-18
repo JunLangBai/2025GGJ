@@ -11,14 +11,14 @@ public class PlayerMove : MonoBehaviour
 
     [Header("Jump")]
     public float jumpForce;
-    public float jumpForceOnBubble;
+    // public float jumpForceOnBubble;
 
     [FormerlySerializedAs("TocheBubbleKey")] [Header("Keybinds")]
     public KeyCode tocheBubbleKey = KeyCode.Space;
 
     [Header("Ground Check")]
     public float playerHeight;
-    public LayerMask whatIsGround;
+    public LayerMask whatIsGround;  
     public bool grounded;
     public LayerMask whatIsBubble;
     public bool bubbleed;
@@ -47,6 +47,7 @@ public class PlayerMove : MonoBehaviour
 
     // 每次回收泡泡时恢复的比例
     public float growFactor = 0.02f;
+    public float scaleFactor = 1f;
 
     [Header("Scale")]
     
@@ -70,13 +71,15 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        GroundCheck();
+        UpdateShootRootPosition();
         
+        GroundCheck();
         if (Input.GetKey(KeyCode.W) && grounded)
         {
             movedir = Vector2.up;
-            Jump(jumpForce);
+            Jump(jumpForce );
         }
+        SpeedControl();
      
 
         if (GameControl.Instance.nowBubble >= GameControl.Instance.limitation)
@@ -113,6 +116,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        
     }
 
     public void Move()
@@ -139,24 +143,31 @@ public class PlayerMove : MonoBehaviour
             moveInput = 0f;
             movedir = Vector2.down;
         }
-
-        UpdateShootRootPosition();
+        
 
         transform.Translate(Vector2.right * moveInput * moveSpeed * Time.deltaTime);
     }
 
     private void Jump(float jump)
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-        rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
+        // 如果玩家在地面上或泡泡上
+        if (grounded)
+        {
+            // 重置垂直速度，以防玩家在空中时保持过高的速度
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        
+            // 施加跳跃力
+            rb.AddForce(Vector2.up * jump * scaleFactor, ForceMode2D.Impulse);
+        }
     }
 
     private void GroundCheck()
     {
         RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, playerHeight / 2 + 0.01f, whatIsGround);
+        Debug.DrawRay(hitGround.point, Vector2.zero  * (playerHeight / 2 + 0.01f), Color.red);
         grounded = hitGround.collider != null;
-        RaycastHit2D hitBubble = Physics2D.Raycast(transform.position, Vector2.down, playerHeight / 2 + 0.01f, whatIsBubble);
-        bubbleed = hitBubble.collider != null;
+        // RaycastHit2D hitBubble = Physics2D.Raycast(transform.position, Vector2.down, playerHeight / 2 + 0.01f, whatIsBubble);
+        // bubbleed = hitBubble.collider != null;
     }
 
     private void UpdateShootRootPosition()
@@ -182,8 +193,6 @@ public class PlayerMove : MonoBehaviour
     // 更新玩家体型的缩放比例
     private void UpdatePlayerScale()
     {
-        float scaleFactor = 1f;
-
         // 根据 nowBubble 的值来更新玩家体型的缩放
         if (GameControl.Instance.nowBubble <= 0)
         {
@@ -247,6 +256,21 @@ public class PlayerMove : MonoBehaviour
         else
         {
             Debug.Log("附近没有泡泡可以销毁");
+        }
+    }
+
+    private void SpeedControl()
+    {
+        // 限制垂直速度，防止跳得过高，防止连跳过高
+        if (rb.linearVelocity.y > jumpForce)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        }
+    
+        // 防止垂直速度过低，避免下落速度过快
+        if (rb.linearVelocity.y < -jumpForce)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -jumpForce);
         }
     }
 }
