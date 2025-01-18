@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -10,9 +12,9 @@ public class PlayerMove : MonoBehaviour
     //跳跃力
     public float jumpForce;
     
-    [Header("Keybinds")]
+    [FormerlySerializedAs("TocheBubbleKey")] [Header("Keybinds")]
     //交互泡泡按键
-    public KeyCode TocheBubbleKey = KeyCode.Space;
+    public KeyCode tocheBubbleKey = KeyCode.Space;
     
     //检查玩家是否在地面上,才能应用阻力，因为在空中有阻力非常奇怪
     [Header("Ground Check")]
@@ -21,10 +23,13 @@ public class PlayerMove : MonoBehaviour
     //为地面层蒙版
     public LayerMask whatIsGround;
     //是否为地面
-    bool grounded;
+    public bool grounded;
     
+    [Header("Bubble")]
+    public GameObject bubble;
+    public float bubbleSpeed = 20f;
     //移动施加到刚体
-    Rigidbody rb;
+    Rigidbody2D rb;
 
     // 当前朝向
     private enum Direction
@@ -35,13 +40,29 @@ public class PlayerMove : MonoBehaviour
 
     private Direction currentDirection = Direction.Right;
 
+    private void Start()
+    {
+        // 获取Rigidbody2D组件
+        rb = GetComponent<Rigidbody2D>();
+    }
+    
     private void Update()
     {
-        Move();
-        //检测我是否按跳跃键，我准备好跳跃，并且我在地面上
+        // 进行地面检测
+        GroundCheck();
+        
+       //检测我是否按跳跃键，我准备好跳跃，并且我在地面上
         if (Input.GetKey(KeyCode.W) && grounded)
         {
             Jump();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (grounded)    
+        {
+            Move();
         }
     }
 
@@ -52,6 +73,8 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) // 左
         {
             moveInput = -1f;
+            
+            //留发射的口子
             //SetDirection(Direction.Left);
         }
         else if (Input.GetKey(KeyCode.D)) // 右
@@ -66,9 +89,20 @@ public class PlayerMove : MonoBehaviour
     
     private void Jump()
     {
-        //在你施加任何想要确保的力之前你的y速度设置为0，这样你总是会跳完全相同的高度后，你可以使用跳跃力
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        //添加力的时候用Impulse模式，因为只施加一次力
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            // 在施加任何跳跃力之前，确保Y轴速度为0，避免影响跳跃高度
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+
+            // 添加跳跃力，使用Impulse模式只施加一次力
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    }
+    
+    // 地面检测函数
+    private void GroundCheck()
+    {
+        // 从玩家的底部发射一条射线，检测是否与地面层碰撞
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, playerHeight/2+0.01f, whatIsGround);
+
+        // 如果射线碰到了地面层，设置grounded为true，否则为false
+        grounded = hit.collider != null;
     }
 }
