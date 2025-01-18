@@ -36,4 +36,8 @@ public class GameControl : MonoBehaviour
         bubblescount++;
     }
 
+    public void BubblesDown()
+    {
+        bubblescount--;
+    }
 }
