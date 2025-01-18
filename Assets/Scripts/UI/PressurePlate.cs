@@ -29,7 +29,7 @@ public class PressurePlateButton2D : MonoBehaviour
     // 当玩家进入按钮的触发区域时
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player")) // 仅当玩家进入按钮时触发
+        if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家进入按钮时触发
         {
             if (!isPressed)
             {
@@ -42,7 +42,7 @@ public class PressurePlateButton2D : MonoBehaviour
     // 当玩家离开按钮的触发区域时
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player")) // 仅当玩家离开按钮时触发
+        if (collider.CompareTag("Player") || collider.CompareTag("Bubble")) // 仅当玩家离开按钮时触发
         {
             if (isPressed)
             {
