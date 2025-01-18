@@ -27,6 +27,7 @@ public class PlayerMove : MonoBehaviour
     public Transform shootroot;
     public GameObject bubble;
     public float bubbleSpeed = 20f;
+    //后坐力
     public float bubbleForce = 20f;
     
     [Header("Bubble Destruction")]
