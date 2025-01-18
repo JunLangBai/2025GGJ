@@ -26,7 +26,14 @@ public class GameControl : MonoBehaviour
             return _instance;
         }
     }
-    
-    
-    
+
+    public int bubblescount;
+    public int limitation = 4;
+
+
+    public void BubblesUp()
+    {
+        bubblescount++;
+    }
+
 }

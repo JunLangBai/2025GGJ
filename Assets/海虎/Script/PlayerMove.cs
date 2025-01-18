@@ -55,9 +55,14 @@ public class PlayerMove : MonoBehaviour
         }
         
         // 发射泡泡
-        if (Input.GetKeyDown(tocheBubbleKey))
+        if (Input.GetKeyDown(tocheBubbleKey) && GameControl.Instance.bubblescount < GameControl.Instance.limitation )
         {
+            GameControl.Instance.BubblesUp();
             ShootBubble(movedir);
+        }
+        else if (GameControl.Instance.bubblescount >= GameControl.Instance.limitation)
+        {
+            GameControl.Instance.bubblescount = GameControl.Instance.limitation;
         }
     }
 
