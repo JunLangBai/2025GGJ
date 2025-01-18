@@ -5,6 +5,7 @@ public class PressurePlate2D : MonoBehaviour
     public GameObject door;  // 门对象
     public float doorOpenHeight = 5f;  // 门的开启动作（例如，上升的高度）
     public float doorCloseHeight = 0f;  // 门的关闭位置（初始高度）
+    public float moveSpeed = 2f;  // 移动速度，决定门的移动快慢
     private bool isPressed = false;  // 是否被按压
     private Vector3 doorOriginalPosition;
 
@@ -12,6 +13,21 @@ public class PressurePlate2D : MonoBehaviour
     {
         // 获取门的初始位置
         doorOriginalPosition = door.transform.position;
+    }
+
+    void Update()
+    {
+        // 逐帧移动门的位置
+        if (isPressed)
+        {
+            // 当门被按压时，逐渐移动到开启动作的位置
+            door.transform.position = Vector3.Lerp(door.transform.position, new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z), Time.deltaTime * moveSpeed);
+        }
+        else
+        {
+            // 当门被释放时，逐渐移动到关闭位置
+            door.transform.position = Vector3.Lerp(door.transform.position, new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorCloseHeight, doorOriginalPosition.z), Time.deltaTime * moveSpeed);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -37,9 +53,7 @@ public class PressurePlate2D : MonoBehaviour
         if (!isPressed)
         {
             isPressed = true;
-            // 移动门到开启位置
-            door.transform.position = new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z);
-            Debug.Log("门已打开");
+            Debug.Log("门开始打开");
         }
     }
 
@@ -48,9 +62,7 @@ public class PressurePlate2D : MonoBehaviour
         if (isPressed)
         {
             isPressed = false;
-            // 移动门回到关闭位置
-            door.transform.position = new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorCloseHeight, doorOriginalPosition.z);
-            Debug.Log("门已关闭");
+            Debug.Log("门开始关闭");
         }
     }
 }
