@@ -63,10 +63,11 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (grounded)    
-        {
-            Move();
-        }
+        // if (grounded)    
+        // {
+        //     
+        // }
+        Move();
         
     }
 
@@ -97,6 +98,7 @@ public class PlayerMove : MonoBehaviour
 
         // 移动物体
         transform.Translate(Vector2.right * moveInput * moveSpeed * Time.deltaTime);
+        
     }
 
     private void Jump()

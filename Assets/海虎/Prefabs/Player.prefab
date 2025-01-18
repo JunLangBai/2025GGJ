@@ -140,6 +140,7 @@ MonoBehaviour:
   shootroot: {fileID: 0}
   bubble: {fileID: 0}
   bubbleSpeed: 20
+  shootRootTrans: 1
 --- !u!68 &7460392098881682395
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -191,8 +192,8 @@ EdgeCollider2D:
   - {x: 0.4089079, y: 0.28934294}
   - {x: 0.47110987, y: 0.16079465}
   - {x: 0.4936576, y: 0.06543778}
-  - {x: 0.4916029, y: -0.006747715}
-  - {x: -0.49462652, y: -0.0064516217}
+  - {x: 0.50134826, y: -0.009996247}
+  - {x: -0.49706268, y: -0.009700153}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
