@@ -48,6 +48,16 @@ public class PlayerMove : MonoBehaviour
     // 每次回收泡泡时恢复的比例
     public float growFactor = 0.02f;
 
+    [Header("Scale")]
+    
+    // 用于映射 nowBubble 到缩放比例的五个变量
+    public float scale0 = 0.2f;
+    public float scale1 = 0.2f;
+    public float scale2 = 0.4f;
+    public float scale3 = 0.6f;
+    public float scale4 = 0.8f;
+    public float scale5 = 1f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -69,14 +79,20 @@ public class PlayerMove : MonoBehaviour
             Jump(jumpForceOnBubble);
         }
 
+        if (GameControl.Instance.nowBubble >= GameControl.Instance.limitation)
+        {
+            GameControl.Instance.nowBubble = GameControl.Instance.limitation;
+        }
+        
         if (Input.GetKeyDown(tocheBubbleKey) && GameControl.Instance.nowBubble <= GameControl.Instance.limitation )
         {
+            if (GameControl.Instance.nowBubble <= 0)
+            {
+                return;
+            }
+
             GameControl.Instance.BubblesUp();
             ShootBubble(movedir);
-        }
-        else if (GameControl.Instance.nowBubble <= 0)
-        {
-            GameControl.Instance.nowBubble = 0;
         }
 
         if (GameControl.Instance.nowBubble < GameControl.Instance.limitation)
@@ -158,6 +174,29 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    // 更新玩家体型的缩放比例
+    private void UpdatePlayerScale()
+    {
+        float scaleFactor = 1f;
+
+        // 根据 nowBubble 的值来更新玩家体型的缩放
+        if (GameControl.Instance.nowBubble <= 0)
+        {
+            scaleFactor = scale0;
+        }
+        else if (GameControl.Instance.nowBubble <= 1)
+            scaleFactor = scale1;
+        else if (GameControl.Instance.nowBubble == 2)
+            scaleFactor = scale2;
+        else if (GameControl.Instance.nowBubble == 3)
+            scaleFactor = scale3;
+        else if (GameControl.Instance.nowBubble == 4)
+            scaleFactor = scale4;
+        else if (GameControl.Instance.nowBubble == 5)
+            scaleFactor = scale5;
+
+        transform.localScale = originalScale * scaleFactor;  // 根据 scaleFactor 更新玩家体型
+    }
 
     public void ShootBubble(Vector2 newDirection)
     {
@@ -172,16 +211,18 @@ public class PlayerMove : MonoBehaviour
                 bubbleRb.linearVelocity = newDirection.normalized * bubbleSpeed;
             }
 
-            // 缩小玩家体型
-            currentScaleFactor = Mathf.Max(0.5f, currentScaleFactor - shrinkFactor);  // 不小于50%的缩放
-            transform.localScale = originalScale * currentScaleFactor;
+            // // 缩小玩家体型
+            // currentScaleFactor = Mathf.Max(0.5f, currentScaleFactor - shrinkFactor);  // 不小于50%的缩放
+            // transform.localScale = originalScale * currentScaleFactor;
+
+            // 更新玩家体型
+            UpdatePlayerScale();
 
             // 给玩家施加反向冲力
             Vector2 oppositeDirection = -newDirection.normalized;  // 反向
             rb.AddForce(oppositeDirection * bubbleSpeed * bubbleForce, ForceMode2D.Impulse);  // 施加一个反向冲力
         }
     }
-
 
     private void DestroyRandomBubble()
     {
@@ -190,18 +231,21 @@ public class PlayerMove : MonoBehaviour
         if (nearbyBubbles.Length > 0)
         {
             int randomIndex = UnityEngine.Random.Range(0, nearbyBubbles.Length);
+            int count= nearbyBubbles[randomIndex].gameObject.GetComponent<TriggerBounce>().objectID;
             Destroy(nearbyBubbles[randomIndex].gameObject);
-            GameControl.Instance.BubblesDown();
+            GameControl.Instance.BubblesUpInt(count);
             Debug.Log("销毁一个泡泡");
 
-            // 恢复玩家体型
-            currentScaleFactor = Mathf.Min(1f, currentScaleFactor + growFactor);  // 最大恢复为100%
-            transform.localScale = originalScale * currentScaleFactor;
+            // // 恢复玩家体型
+            // currentScaleFactor = Mathf.Min(1f, currentScaleFactor + growFactor);  // 最大恢复为100%
+            // transform.localScale = originalScale * currentScaleFactor;
+
+            // 更新玩家体型
+            UpdatePlayerScale();
         }
         else
         {
             Debug.Log("附近没有泡泡可以销毁");
         }
     }
-    
 }

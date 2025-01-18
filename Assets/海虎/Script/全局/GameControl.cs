@@ -60,6 +60,11 @@ public class GameControl : MonoBehaviour
         
     }
 
+    public void BubblesUpInt(int a)
+    {
+        nowBubble += a;
+    }
+
     public void BubblesDown()
     {
         nowBubble++;
