@@ -14,29 +14,17 @@ public class TriggerBounce : MonoBehaviour
     public float[] sizeValues = { 1f, 1.5f, 2f, 2.5f, 3f };  // 声明的五个不同大小的值
 
     private Rigidbody2D rb;
-    private Collider2D collider;
 
     // 标志位，避免重复执行合并
     private bool hasMerged = false;
 
     private void Start()
     {
-        collider = GetComponent<Collider2D>();
-        // 禁用Collider
-        collider.enabled = false;
-        timer = Time.time;
         // 获取Rigidbody2D组件
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Update()
-    {
-        if (Time.time >= bounceTime)
-        {
-            // 启用Collider
-            collider.enabled = true;
-        }
-    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

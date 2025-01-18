@@ -57,6 +57,10 @@ public class PlayerMove : MonoBehaviour
     public float scale3 = 0.6f;
     public float scale4 = 0.8f;
     public float scale5 = 1f;
+    
+    [Header("Time")]
+    public float destroyDelay = 1f;  // 销毁泡泡的延迟时间（秒）
+    private float lastDestroyTime = 0f;  // 上次执行销毁泡泡操作的时间
 
     private void Start()
     {
@@ -93,11 +97,16 @@ public class PlayerMove : MonoBehaviour
 
             GameControl.Instance.BubblesUp();
             ShootBubble(movedir);
+            lastDestroyTime = Time.time;  // 记录这次执行销毁操作的时间
         }
 
         if (GameControl.Instance.nowBubble < GameControl.Instance.limitation)
         {
-            DestroyRandomBubble();
+            // 判断是否满足延迟时间，执行销毁泡泡操作
+            if (GameControl.Instance.nowBubble < GameControl.Instance.limitation && Time.time - lastDestroyTime >= destroyDelay)
+            {
+                DestroyRandomBubble();
+            }
         }
         else if (GameControl.Instance.nowBubble == GameControl.Instance.limitation)
         {
@@ -231,14 +240,10 @@ public class PlayerMove : MonoBehaviour
         if (nearbyBubbles.Length > 0)
         {
             int randomIndex = UnityEngine.Random.Range(0, nearbyBubbles.Length);
-            int count= nearbyBubbles[randomIndex].gameObject.GetComponent<TriggerBounce>().objectID;
+            int count = nearbyBubbles[randomIndex].gameObject.GetComponent<TriggerBounce>().objectID;
             Destroy(nearbyBubbles[randomIndex].gameObject);
             GameControl.Instance.BubblesUpInt(count);
             Debug.Log("销毁一个泡泡");
-
-            // // 恢复玩家体型
-            // currentScaleFactor = Mathf.Min(1f, currentScaleFactor + growFactor);  // 最大恢复为100%
-            // transform.localScale = originalScale * currentScaleFactor;
 
             // 更新玩家体型
             UpdatePlayerScale();
