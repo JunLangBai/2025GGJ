@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FeelLettersDemoBoilingLine
+  m_Name: oops
   m_Shader: {fileID: 4800000, guid: f54b8ae4d72e16445b407e4ad5ad4264, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -74,7 +74,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Amount: 0.003
+    - _Amount: 0.02
     - _AmountVertex: 0
     - _BumpScale: 1
     - _COLOR_SHIFTING: 1
@@ -104,7 +104,7 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _TimeQuantize: 10
+    - _TimeQuantize: 7.16
     - _USE_EMISSION: 0
     - _UVSec: 0
     - _UseUIAlphaClip: 1
