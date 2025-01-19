@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: "Assets/\u6D77\u864E/test 1.unity"
     guid: dd04e7366968bc14b9052a6685dad215
   - enabled: 1
-    path: "Assets/\u6D77\u864E/test 2.unity"
+    path: "Assets/\u6D77\u864E/test01.unity"
     guid: 50b39644c2b6ca6488715d2f3a7bd5de
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
