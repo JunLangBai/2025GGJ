@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38aeac4f46f68d49b065ddb4ad24091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapname: test01
+  mapname: level1
   transition: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
 --- !u!114 &368577495
 MonoBehaviour:
@@ -701,7 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38aeac4f46f68d49b065ddb4ad24091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapname: Stage02
+  mapname: level3
   transition: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
 --- !u!114 &761300224
 MonoBehaviour:
@@ -878,7 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38aeac4f46f68d49b065ddb4ad24091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapname: Stage04
+  mapname: level4
   transition: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
 --- !u!114 &827467374
 MonoBehaviour:
@@ -1281,7 +1281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38aeac4f46f68d49b065ddb4ad24091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapname: test02
+  mapname: level2
   transition: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
 --- !u!114 &1449442241
 MonoBehaviour:
