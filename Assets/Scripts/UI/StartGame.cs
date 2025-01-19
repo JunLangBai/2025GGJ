@@ -12,7 +12,7 @@ public class StartGame : MonoBehaviour
     public void startgame()
     {
         //SceneManager.LoadScene("MapChooseScene");
-        TransitionManager.Instance().Transition("MapChooseScene", transition,0f);
+        TransitionManager.Instance().Transition("level1", transition,0f);
     }
 
  
