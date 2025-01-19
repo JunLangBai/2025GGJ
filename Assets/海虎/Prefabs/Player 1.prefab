@@ -76,9 +76,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d592fb55aa16c824c8c652cec3dacf5d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -471,6 +471,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 23020608807953032, guid: 5a931c479106e40e8b46e4424897d5a8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 42703947e38ff94479cc6153f15906e3, type: 2}
     - target: {fileID: 50704409906859520, guid: 5a931c479106e40e8b46e4424897d5a8, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -559,6 +563,10 @@ PrefabInstance:
       propertyPath: Scale.y
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 114256161662902888, guid: 5a931c479106e40e8b46e4424897d5a8, type: 3}
+      propertyPath: SpriteMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 42703947e38ff94479cc6153f15906e3, type: 2}
     - target: {fileID: 114700209019639646, guid: 5a931c479106e40e8b46e4424897d5a8, type: 3}
       propertyPath: Joints.Array.data[6].Joint
       value: 
@@ -865,6 +873,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 323e6c7d5974c384ea87e06364f52819, type: 3}
   - {fileID: 8300000, guid: 1f87b6d6d8e7f1c43ace7ae60220b559, type: 3}
   jumpClip: {fileID: 8300000, guid: b21cefbfc78e0274aa9263c4f8c1ec0b, type: 3}
+  spriteRenderer: {fileID: 0}
 --- !u!58 &8933225319512923006
 CircleCollider2D:
   m_ObjectHideFlags: 0

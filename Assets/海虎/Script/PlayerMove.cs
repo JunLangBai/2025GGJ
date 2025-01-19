@@ -68,12 +68,20 @@ public class PlayerMove : MonoBehaviour
     public AudioClip jumpClip;
     // 用于生成随机数的实例
     private System.Random random = new System.Random();
+    
+    public SpriteRenderer spriteRenderer;
+    
+    Quaternion initialRotation;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         originalScale = transform.localScale;  // 存储玩家的初始大小
         UpdatePlayerScale();
+        // 获取 SpriteRenderer 组件
+        spriteRenderer = shootroot.gameObject.GetComponent<SpriteRenderer>();
+        // 保存物体初始角度
+        initialRotation = transform.rotation;
     }
 
     private void Update()
@@ -189,18 +197,34 @@ public class PlayerMove : MonoBehaviour
         if (movedir == Vector2.left)
         {
             shootroot.position = new Vector2(transform.position.x - shootRootTrans, transform.position.y + 0.2f);
+            // 恢复到初始角度
+            // 恢复到初始角度
+            shootroot.rotation = initialRotation;
+
+            spriteRenderer.flipX = true;
         }
         else if (movedir == Vector2.right)
         {
             shootroot.position = new Vector2(transform.position.x + shootRootTrans, transform.position.y + 0.2f);
+            // 恢复到初始角度
+            // 恢复到初始角度
+            shootroot.rotation = initialRotation;
+
+            // 水平翻转
+            spriteRenderer.flipX = false;
         }
         else if (movedir == Vector2.up)
         {
             shootroot.position = new Vector2(transform.position.x, transform.position.y + shootRootTrans);
+            // 直接设置物体向右旋转 90 度
+            shootroot.rotation = Quaternion.Euler(0, 0, -90); // -90 表示向右旋转 90 度
+            spriteRenderer.flipX = true;
         }
         else if (movedir == Vector2.down)
         {
             shootroot.position = new Vector2(transform.position.x, transform.position.y - shootRootTrans);
+            shootroot.rotation = Quaternion.Euler(0, 0, 90); // -90 表示向右旋转 90 度
+            spriteRenderer.flipX = true;
         }
     }
     
