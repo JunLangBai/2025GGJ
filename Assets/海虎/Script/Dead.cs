@@ -20,7 +20,7 @@ public class Dead : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log(sceneName);   
-            TransitionManager.Instance().Transition(SceneManager.GetActiveScene().name, transition, 0f);
+            TransitionManager.Instance().Transition(SceneManager.GetActiveScene().name, transition, 1f);
         }
 
         if (other.CompareTag("Bubble"))
