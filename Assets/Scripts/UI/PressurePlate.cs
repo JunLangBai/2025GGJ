@@ -38,7 +38,7 @@ public class PressurePlateButton2D : MonoBehaviour
     }
 
     // 当玩家进入按钮的触发区域时
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerStay2D(Collider2D collider)
     {
         if ((collider.CompareTag("Player") || collider.CompareTag("Bubble")) && !isPressed) // 仅当玩家或泡泡进入按钮时触发
         {
