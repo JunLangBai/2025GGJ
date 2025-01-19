@@ -74,7 +74,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Amount: 0.003
+    - _Amount: 0.04
     - _AmountVertex: 0
     - _BumpScale: 1
     - _COLOR_SHIFTING: 1
