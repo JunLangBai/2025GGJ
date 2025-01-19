@@ -11,7 +11,7 @@ public class PressurePlateButton2D : MonoBehaviour
 
     public GameObject door;  // 门对象
     public float doorOpenHeight = 5f;  // 门的开启动作（例如，上升的高度）
-    public float doorCloseHeight = 0f;  // 门的关闭位置（初始高度）
+    public float doorCloseHeight = 0f;  // 门的关闭位置（初始位置）
     public float moveSpeed = 2f;  // 移动速度，决定门的移动快慢
     
     private bool isPressed = false; // 用来判断按钮是否被踩压
@@ -19,6 +19,7 @@ public class PressurePlateButton2D : MonoBehaviour
 
     private bool isMoving = false;  // 用来标识门是否正在移动
     private bool shouldClose = false; // 是否应该关闭门
+    public bool isUpdown = true; // 控制上下或左右移动
 
     private void Start()
     {
@@ -81,13 +82,31 @@ public class PressurePlateButton2D : MonoBehaviour
     private IEnumerator MoveDoorUp()
     {
         isMoving = true;
-        Vector3 targetPosition = new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z);
+        Vector3 targetPosition;
 
-        while (door.transform.position.y < targetPosition.y)
+        // 根据isUpdown决定门的移动方向
+        if (isUpdown)
+        {
+            targetPosition = new Vector3(doorOriginalPosition.x, doorOriginalPosition.y + doorOpenHeight, doorOriginalPosition.z);
+        }
+        else
+        {
+            targetPosition = new Vector3(doorOriginalPosition.x + doorOpenHeight, doorOriginalPosition.y, doorOriginalPosition.z);
+        }
+
+        while (isUpdown ? door.transform.position.y < targetPosition.y : door.transform.position.x < targetPosition.x)
         {
             if (shouldClose) yield break;  // 如果应当关门，立即停止开门
 
-            door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y + moveSpeed * Time.deltaTime, door.transform.position.z);
+            if (isUpdown)
+            {
+                door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y + moveSpeed * Time.deltaTime, door.transform.position.z);
+            }
+            else
+            {
+                door.transform.position = new Vector3(door.transform.position.x + moveSpeed * Time.deltaTime, door.transform.position.y, door.transform.position.z);
+            }
+
             yield return null;
         }
         door.transform.position = targetPosition; // 确保门停在目标位置
@@ -100,9 +119,16 @@ public class PressurePlateButton2D : MonoBehaviour
         isMoving = true;
         Vector3 targetPosition = doorOriginalPosition;  // 直接使用门的初始位置
 
-        while (door.transform.position.y > targetPosition.y)
+        while (isUpdown ? door.transform.position.y > targetPosition.y : door.transform.position.x > targetPosition.x)
         {
-            door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y - moveSpeed * Time.deltaTime, door.transform.position.z);
+            if (isUpdown)
+            {
+                door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y - moveSpeed * Time.deltaTime, door.transform.position.z);
+            }
+            else
+            {
+                door.transform.position = new Vector3(door.transform.position.x - moveSpeed * Time.deltaTime, door.transform.position.y, door.transform.position.z);
+            }
             yield return null;
         }
         door.transform.position = targetPosition; // 确保门停在初始位置
