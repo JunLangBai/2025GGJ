@@ -856,6 +856,15 @@ MonoBehaviour:
   scale4: 0.9
   scale5: 1
   destroyDelay: 1
+  shootClips:
+  - {fileID: 8300000, guid: 343d6f025574ab3409e20a5a13e00e6c, type: 3}
+  - {fileID: 8300000, guid: 85aa9a1eb41380b40a40a84b95b8cbef, type: 3}
+  - {fileID: 8300000, guid: cff8d9bdeb24a8f4bb75b6d65b5bd506, type: 3}
+  - {fileID: 8300000, guid: 3061fdbc2590e1f4981c4931af85529e, type: 3}
+  - {fileID: 8300000, guid: b593dcf4e24e13a439010aa7e0f22703, type: 3}
+  - {fileID: 8300000, guid: 323e6c7d5974c384ea87e06364f52819, type: 3}
+  - {fileID: 8300000, guid: 1f87b6d6d8e7f1c43ace7ae60220b559, type: 3}
+  jumpClip: {fileID: 8300000, guid: b21cefbfc78e0274aa9263c4f8c1ec0b, type: 3}
 --- !u!58 &8933225319512923006
 CircleCollider2D:
   m_ObjectHideFlags: 0

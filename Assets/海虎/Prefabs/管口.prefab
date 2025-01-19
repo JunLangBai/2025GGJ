@@ -104,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transition: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
   "\u4E0B\u4E00\u5173\u573A\u666F\u540D\u79F0": level2
+  sound: {fileID: 8300000, guid: aa156ac32d523fa498c70bfefcd1c254, type: 3}
 --- !u!61 &2043569948513426650
 BoxCollider2D:
   m_ObjectHideFlags: 0

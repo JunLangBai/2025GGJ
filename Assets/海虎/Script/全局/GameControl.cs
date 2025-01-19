@@ -35,6 +35,11 @@ public class GameControl : MonoBehaviour
     
     public LevelData levelData;
 
+    public bool finishing;
+    
+    // 音乐播放器组件
+    private AudioSource audioSource;
+
     private void Awake()
     {
         if (levelData != null)
@@ -52,6 +57,10 @@ public class GameControl : MonoBehaviour
         {
             Debug.Log("没有配置关卡数据！");
         }
+        
+        // 自动为场景创建音乐播放器
+        audioSource = gameObject.AddComponent<AudioSource>();
+
     }
 
     public void BubblesUp()
@@ -68,5 +77,12 @@ public class GameControl : MonoBehaviour
     public void BubblesDown()
     {
         nowBubble++;
+    }
+
+    public void PlayMusic(AudioClip clip)
+    {
+        // 设置并播放随机选中的音乐
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }

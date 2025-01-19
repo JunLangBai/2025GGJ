@@ -63,6 +63,11 @@ public class PlayerMove : MonoBehaviour
     [Header("Time")]
     public float destroyDelay = 1f;  // 销毁泡泡的延迟时间（秒）
     private float lastDestroyTime = 0f;  // 上次执行销毁泡泡操作的时间
+    [FormerlySerializedAs("audioSource")] [Header("Audio")]
+    public AudioClip[] shootClips;
+    public AudioClip jumpClip;
+    // 用于生成随机数的实例
+    private System.Random random = new System.Random();
 
     private void Start()
     {
@@ -73,51 +78,57 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        UpdateShootRootPosition();
-        
-        GroundCheck();
-        if (Input.GetKey(KeyCode.W) && grounded)
+        if (GameControl.Instance.finishing != true)
         {
-            movedir = Vector2.up;
-            Jump(jumpForce );
-        }
-        SpeedControl();
+            UpdateShootRootPosition();
+        
+            GroundCheck();
+            if (Input.GetKey(KeyCode.W) && grounded)
+            {
+                movedir = Vector2.up;
+                Jump(jumpForce );
+            }
+            SpeedControl();
      
 
-        if (GameControl.Instance.nowBubble >= GameControl.Instance.limitation)
-        {
-            GameControl.Instance.nowBubble = GameControl.Instance.limitation;
-        }
+            if (GameControl.Instance.nowBubble >= GameControl.Instance.limitation)
+            {
+                GameControl.Instance.nowBubble = GameControl.Instance.limitation;
+            }
         
-        if (Input.GetKeyDown(tocheBubbleKey) && GameControl.Instance.nowBubble <= GameControl.Instance.limitation )
-        {
-            if (GameControl.Instance.nowBubble <= 0)
+            if (Input.GetKeyDown(tocheBubbleKey) && GameControl.Instance.nowBubble <= GameControl.Instance.limitation )
             {
-                return;
+                if (GameControl.Instance.nowBubble <= 0)
+                {
+                    return;
+                }
+
+                GameControl.Instance.BubblesUp();
+                ShootBubble(movedir);
+                lastDestroyTime = Time.time;  // 记录这次执行销毁操作的时间
             }
 
-            GameControl.Instance.BubblesUp();
-            ShootBubble(movedir);
-            lastDestroyTime = Time.time;  // 记录这次执行销毁操作的时间
-        }
-
-        if (GameControl.Instance.nowBubble < GameControl.Instance.limitation)
-        {
-            // 判断是否满足延迟时间，执行销毁泡泡操作
-            if (GameControl.Instance.nowBubble < GameControl.Instance.limitation && Time.time - lastDestroyTime >= destroyDelay)
+            if (GameControl.Instance.nowBubble < GameControl.Instance.limitation)
             {
-                DestroyRandomBubble();
+                // 判断是否满足延迟时间，执行销毁泡泡操作
+                if (GameControl.Instance.nowBubble < GameControl.Instance.limitation && Time.time - lastDestroyTime >= destroyDelay)
+                {
+                    DestroyRandomBubble();
+                }
             }
-        }
-        else if (GameControl.Instance.nowBubble == GameControl.Instance.limitation)
-        {
+            else if (GameControl.Instance.nowBubble == GameControl.Instance.limitation)
+            {
             
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        Move();
+        if (GameControl.Instance.finishing != true)
+        {
+            Move();
+        }
         
     }
 
@@ -146,7 +157,6 @@ public class PlayerMove : MonoBehaviour
             movedir = Vector2.down;
         }
         
-
         transform.Translate(Vector2.right * moveInput * moveSpeed * Time.deltaTime);
     }
 
@@ -160,6 +170,8 @@ public class PlayerMove : MonoBehaviour
         
             // 施加跳跃力
             rb.AddForce(Vector2.up * jump * scaleFactor, ForceMode2D.Impulse);
+            
+            GameControl.Instance.PlayMusic(jumpClip);
         }
     }
 
@@ -191,6 +203,7 @@ public class PlayerMove : MonoBehaviour
             shootroot.position = new Vector2(transform.position.x, transform.position.y - shootRootTrans);
         }
     }
+    
 
     // 更新玩家体型的缩放比例
     private void UpdatePlayerScale()
@@ -237,6 +250,8 @@ public class PlayerMove : MonoBehaviour
             // 给玩家施加反向冲力
             Vector2 oppositeDirection = -newDirection.normalized;  // 反向
             rb.AddForce(oppositeDirection * bubbleSpeed * bubbleForce, ForceMode2D.Impulse);  // 施加一个反向冲力
+
+            ChooseAudio();
         }
     }
 
@@ -275,4 +290,12 @@ public class PlayerMove : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, -jumpForce);
         }
     }
+
+    public void ChooseAudio()
+    {
+        // 随机选择一个音乐文件的索引
+        int randomIndex = random.Next(shootClips.Length);
+        GameControl.Instance.PlayMusic(shootClips[randomIndex]);
+    }
+
 }
