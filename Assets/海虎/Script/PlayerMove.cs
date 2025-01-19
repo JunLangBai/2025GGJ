@@ -63,6 +63,11 @@ public class PlayerMove : MonoBehaviour
     [Header("Time")]
     public float destroyDelay = 1f;  // 销毁泡泡的延迟时间（秒）
     private float lastDestroyTime = 0f;  // 上次执行销毁泡泡操作的时间
+    [FormerlySerializedAs("audioSource")] [Header("Audio")]
+    public AudioClip[] shootClips;
+    public AudioClip jumpClip;
+    // 用于生成随机数的实例
+    private System.Random random = new System.Random();
 
     private void Start()
     {
@@ -165,6 +170,8 @@ public class PlayerMove : MonoBehaviour
         
             // 施加跳跃力
             rb.AddForce(Vector2.up * jump * scaleFactor, ForceMode2D.Impulse);
+            
+            GameControl.Instance.PlayMusic(jumpClip);
         }
     }
 
@@ -243,6 +250,8 @@ public class PlayerMove : MonoBehaviour
             // 给玩家施加反向冲力
             Vector2 oppositeDirection = -newDirection.normalized;  // 反向
             rb.AddForce(oppositeDirection * bubbleSpeed * bubbleForce, ForceMode2D.Impulse);  // 施加一个反向冲力
+
+            ChooseAudio();
         }
     }
 
@@ -281,4 +290,12 @@ public class PlayerMove : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, -jumpForce);
         }
     }
+
+    public void ChooseAudio()
+    {
+        // 随机选择一个音乐文件的索引
+        int randomIndex = random.Next(shootClips.Length);
+        GameControl.Instance.PlayMusic(shootClips[randomIndex]);
+    }
+
 }

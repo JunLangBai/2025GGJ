@@ -20,6 +20,8 @@ public class PressurePlateButton2D : MonoBehaviour
     private bool isMoving = false;  // 用来标识门是否正在移动
     private bool shouldClose = false; // 是否应该关闭门
     public bool isUpdown = true; // 控制上下或左右移动
+    
+    public AudioClip pressSound;
 
     private void Start()
     {
@@ -43,6 +45,7 @@ public class PressurePlateButton2D : MonoBehaviour
         if ((collider.CompareTag("Player") || collider.CompareTag("Bubble")) && !isPressed) // 仅当玩家或泡泡进入按钮时触发
         {
             isPressed = true;
+            GameControl.Instance.PlayMusic(pressSound);
             ChangeButtonState(true); // 改变按钮状态（被压下）
             StartCoroutine(MoveDoorUp()); // 打开门
         }

@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transition: {fileID: 11400000, guid: 06fa0ad2bc756f44ab258bc74947381d, type: 2}
+  deathSound: {fileID: 8300000, guid: 5d280ea4dbdc0e84594c3aed4ad826f1, type: 3}
   effectPrefab: {fileID: 127072, guid: 7f45705f5f30d8a45af0fc2eb8c8998a, type: 3}
 --- !u!1 &4112582033283068251
 GameObject:

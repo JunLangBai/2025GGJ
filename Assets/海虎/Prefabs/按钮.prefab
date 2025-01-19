@@ -191,6 +191,7 @@ MonoBehaviour:
   doorCloseHeight: 0
   moveSpeed: 2
   isUpdown: 1
+  pressSound: {fileID: 8300000, guid: d034a1271f1847c49ab481986cbb9cfe, type: 3}
 --- !u!50 &7213784686518497115
 Rigidbody2D:
   serializedVersion: 5

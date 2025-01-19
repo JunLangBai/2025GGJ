@@ -8,6 +8,7 @@ public class Dead : MonoBehaviour
 {
     private string sceneName;
     public TransitionSettings transition;
+    public AudioClip deathSound;
     
 
     public void Awake()
@@ -48,6 +49,7 @@ public class Dead : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayEffect(other.gameObject);
+            GameControl.Instance.PlayMusic(deathSound);
             Debug.Log(sceneName);   
             TransitionManager.Instance().Transition(SceneManager.GetActiveScene().name, transition, 1f);
         }
