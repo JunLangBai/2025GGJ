@@ -265,10 +265,12 @@ public class PlayerMove : MonoBehaviour
             int count = nearbyBubbles[randomIndex].gameObject.GetComponent<TriggerBounce>().objectID;
             Destroy(nearbyBubbles[randomIndex].gameObject);
             GameControl.Instance.BubblesUpInt(count);
+            ChooseAudio();
             Debug.Log("销毁一个泡泡");
 
             // 更新玩家体型
             UpdatePlayerScale();
+            
         }
         else
         {
