@@ -68,6 +68,7 @@ public class PlayerMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         originalScale = transform.localScale;  // 存储玩家的初始大小
+        UpdatePlayerScale();
     }
 
     private void Update()
