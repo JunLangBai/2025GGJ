@@ -35,7 +35,7 @@ public class GameControl : MonoBehaviour
     
     public LevelData levelData;
 
-    private void Start()
+    private void Awake()
     {
         if (levelData != null)
         {
