@@ -842,7 +842,7 @@ MonoBehaviour:
   bubbleed: 0
   shootroot: {fileID: 5688174031973250138}
   bubble: {fileID: 962409790833688328, guid: 6748191548f5ea64d9560e71cf924ffb, type: 3}
-  bubbleSpeed: 6
+  bubbleSpeed: 10
   bubbleForce: 6.5
   detectionRadius: 1.5
   shootRootTrans: 1.5

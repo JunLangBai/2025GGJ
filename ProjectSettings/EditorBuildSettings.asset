@@ -30,8 +30,14 @@ EditorBuildSettings:
     path: "Assets/\u6D77\u864E/test 1.unity"
     guid: dd04e7366968bc14b9052a6685dad215
   - enabled: 1
-    path: "Assets/\u6D77\u864E/test01.unity"
+    path: "Assets/\u6D77\u864E/level1.unity"
     guid: 50b39644c2b6ca6488715d2f3a7bd5de
+  - enabled: 1
+    path: "Assets/\u6D77\u864E/level2.unity"
+    guid: a0d717f8249a8f24c956cb3053c1329b
+  - enabled: 1
+    path: "Assets/\u6D77\u864E/level3.unity"
+    guid: cf294b43670b2d64cb3d3c24cfa9f64f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
